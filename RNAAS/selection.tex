@@ -75,7 +75,7 @@ common case for astronomical observations.  Then the complete set of
 observations partitions into two subsets:
 %
 \begin{multline}
-  \pi\left(\left\{ \vtheta_i \right\}, \vlambda \mid \left\{ d_i \right\}\right) \propto \left[ \prod_{i=1}^{\Nobs} p\left( \vd_i \mid \vtheta_i \right) \diff{N}{\vtheta_i}\left( \vlambda \right) \right] \\ \times \left[ \prod_{j=1}^{\Nnobs} p\left( \vd_j \mid \vtheta_j \right) \diff{N}{\vtheta_j}\left( \vlambda \right) \right] \exp\left[ - N\left( \vlambda \right) \right].
+  \pi\left(\left\{ \vtheta_i \right\}, \left\{ \vtheta_j \right\}, \vlambda \mid \left\{ d_i \right\}, \left\{ d_j \right\}\right) \propto \left[ \prod_{i=1}^{\Nobs} p\left( \vd_i \mid \vtheta_i \right) \diff{N}{\vtheta_i}\left( \vlambda \right) \right] \\ \times \left[ \prod_{j=1}^{\Nnobs} p\left( \vd_j \mid \vtheta_j \right) \diff{N}{\vtheta_j}\left( \vlambda \right) \right] \exp\left[ - N\left( \vlambda \right) \right].
 \end{multline}
 %
 Again, a key point is that we can perform this partitioning simply by examining
