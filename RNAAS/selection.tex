@@ -1,0 +1,157 @@
+\documentclass[modern]{aastex62}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% Derivatives
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\diff}[2]{\frac{\dd #1}{\dd #2}}
+
+% Abbreviated Variables
+\newcommand{\Ndet}{N_\mathrm{det}}
+\newcommand{\Nndet}{N_\mathrm{ndet}}
+\newcommand{\Nnobs}{N_\mathrm{nobs}}
+\newcommand{\Nobs}{N_\mathrm{obs}}
+\newcommand{\Ntotal}{N_\mathrm{total}}
+
+% Vector shortcuts
+\newcommand{\vd}{\vec{d}}
+\newcommand{\vlambda}{\vec{\lambda}}
+\newcommand{\vtheta}{\vec{\theta}}
+
+\begin{document}
+\title{Incorporating Selection Effects in Population Analyses}
+
+\author[0000-0003-1540-8562]{Will M. Farr}
+\email{will.farr@stonybrook.edu}
+\affiliation{Department of Physics and Astronomy, Stony Brook University, Stony Brook NY 11794, USA}
+\affiliation{Center for Computational Astronomy, Flatiron Institute, 162 5th Ave., New York NY 10010, USA}
+
+\author[0000-0002-6134-8946]{Ilya Mandel}
+\email{imandel@star.sr.bham.ac.uk}
+
+\author{Jonathan R. Gair}
+\email{J.Gair@ed.ac.uk}
+
+\section*{}
+
+Consider a population of objects, each described by some set of parameters
+$\vtheta$, that follows a number density $\diff{N}{\vtheta}$.  Let the number
+density be parameterised by some set of parameters, $\vlambda$.  For each object
+in the population we make a noisy measurement of $\vtheta$, represented by a
+likelihood function relating the measured data $\vd$, to the parameters of the
+object, $\vtheta$: $p\left( \vd \mid \vtheta \right)$.  If we have observed a
+representative sample (i.e.\ a ``fair draw'') of the population, then the
+appropriate (unnormalised) posterior distribution for the parameters $\left\{
+\vtheta_i \right\}_{i=1}^{\Ntotal}$ of each of the $i = 1, \ldots, \Ntotal$
+objects and the parameters $\vlambda$ describing the population given the set of
+observations $\left\{ \vd_i \right\}$ is
+%
+\begin{equation}
+  \pi\left(\left\{ \vtheta_i \right\}, \vlambda \mid \left\{ d_i \right\}\right) \propto \left[ \prod_{i=1}^{\Ntotal} p\left( \vd_i \mid \vtheta_i \right) \diff{N}{\vtheta_i}\left( \vlambda \right) \right] \exp\left[ - N\left( \vlambda \right) \right],
+\end{equation}
+%
+where
+%
+\begin{equation}
+N\left( \vlambda \right) \equiv \int \dd \vd \, \dd \vtheta p\left( \vd \mid \vtheta \right) \diff{N}{\vtheta}\left( \lambda \right)
+\end{equation}
+%
+is the expected number of objects in the population\footnote{The rationale for
+writing this as a double-integral, when the integral over $\vd$ is in fact
+trivial---since the likelihood is normalised over $\vd$---will become apparent
+below.}.  This is the standard posterior for a hierarchical analysis of an
+inhomogeneous Poisson distribution of events
+\citep{Loredo1995,Hogg2010,Mandel2010,Youdin2011,Foreman-Mackey2014,Farr2015}.
+
+Now suppose that, based on the observed data, some objects are classed as
+``observable'' and others are ``un-observable.''  For example, a survey may
+impose a per-pixel or per-apeture threshold on the flux for inclusion of
+point-sources in a catalog, or a gravitational wave detector my only report
+events whose signal-to-noise ratio rises above some predetermined threshold,
+or\ldots.  The key point here is that the selection of ``observable'' objects is
+made by examining the data, $\vd_i$, for each object; this is by far the most
+common case for astronomical observations.  Then the complete set of
+observations partitions into two subsets:
+%
+\begin{multline}
+  \pi\left(\left\{ \vtheta_i \right\}, \vlambda \mid \left\{ d_i \right\}\right) \propto \left[ \prod_{i=1}^{\Nobs} p\left( \vd_i \mid \vtheta_i \right) \diff{N}{\vtheta_i}\left( \vlambda \right) \right] \\ \times \left[ \prod_{j=1}^{\Nnobs} p\left( \vd_j \mid \vtheta_j \right) \diff{N}{\vtheta_j}\left( \vlambda \right) \right] \exp\left[ - N\left( \vlambda \right) \right].
+\end{multline}
+%
+Again, a key point is that we can perform this partitioning simply by examining
+the \emph{data} obtained for each object.
+
+It is common for the data associated with ``non-observable'' objects to be
+completely \emph{censored}; that is, it often does not appear in a catalog or
+otherwise at all.  In this case, it is appropriate to marginalize over the
+parameters and (unknown) data for the ``non-observable'' objects.  Doing so
+destroys the distinguishability inherent in the inhomogeneous Poisson
+distribution, so we must introduce a factor of $\Nnobs!$ to account for the
+over-counting:
+%
+\begin{equation}
+  \pi\left(\left\{ \vtheta_i \right\}, \vlambda \mid \left\{ d_i \right\}\right) \propto \left[ \prod_{i=1}^{\Nobs} p\left( \vd_i \mid \vtheta_i \right) \diff{N}{\vtheta_i}\left( \vlambda \right) \right] \frac{\Nndet^{\Nnobs}\left( \vlambda \right)}{\Nnobs!} \exp\left[ - N\left( \vlambda \right) \right],
+\end{equation}
+%
+where
+%
+\begin{equation}
+\Nndet\left( \vlambda \right) \equiv \int_{\left\{ \vd \mid \textnormal{non-detection} \right\}} \dd \vd \, \dd \vtheta \, p\left( \vd \mid \vtheta \right) \diff{N}{\vtheta}\left( \vlambda \right)
+\end{equation}
+%
+is the expected number of non-detections in the population model.  It is further
+common to not even know \emph{how many} non-detected objects there were in a
+given survey or data set.  In this case we must marginalize---sum, since
+counting is a discrete operation---over the unknown number of non-detections,
+$\Nnobs$, yielding
+%
+\begin{equation}
+\pi\left(\left\{ \vtheta_i \right\}, \vlambda \mid \left\{ d_i \right\}\right) \propto \left[ \prod_{i=1}^{\Nobs} p\left( \vd_i \mid \vtheta_i \right) \diff{N}{\vtheta_i}\left( \vlambda \right) \right] \exp\left[ - \left( N\left( \vlambda \right) - \Nndet\left( \vlambda \right) \right) \right],
+\end{equation}
+%
+or
+%
+\begin{equation}
+  \pi\left(\left\{ \vtheta_i \right\}, \vlambda \mid \left\{ d_i \right\}\right) \propto \left[ \prod_{i=1}^{\Nobs} p\left( \vd_i \mid \vtheta_i \right) \diff{N}{\vtheta_i}\left( \vlambda \right) \right] \exp\left[ - \Ndet\left( \vlambda \right) \right],
+\end{equation}
+%
+where $\Ndet$---the compliment of $\Nndet$---is the expected number of
+detections under the population model:
+%
+\begin{equation}
+  \Ndet\left( \vlambda \right) \equiv \int_{\left\{ \vd \mid \textnormal{detection} \right\}} \dd \vd \, \dd \vtheta \, p\left( \vd \mid \vtheta \right) \diff{N}{\vtheta}\left( \vlambda \right).
+\end{equation}
+%
+This equation is the posterior for a hierarchical analysis of the number density
+and properties of objects from a data set subject to selection effects.
+
+If we introduce a normalization parameter, $\Lambda$, and write
+%
+\begin{equation}
+  \diff{N}{\vtheta} \equiv \Lambda p\left( \vtheta \right)
+\end{equation}
+%
+with $p\left( \vtheta \right)$ integrating to 1 over the population, impose a
+prior $p\left( \Lambda \right)\propto 1/\Lambda$, and marginalize over
+$\Lambda$, we arrive at the treatment of selection functions for estimating
+population distributions from \citet{Loredo2004,O1-BBH,Mandel2016}, as noted by
+\citet{Fishbach2018}.
+
+Note that the commonly-employed technique of modifying $\diff{N}{\vtheta}$ to
+account for the selection function is not correct, and will lead to biased
+results as long as the selection is dependent only on the observed
+data\footnote{An example where the selection may be parameter- rather than
+data-dependent is in surveys of objects that have been selected based on data in
+yet other surveys.  For example, X-ray selected populations of galaxy clusters
+in a weak-lensing catalog (M. Lieu, private communication).}.
+
+\acknowledgments
+
+We thank Maggie Lieu for pointing out the counterexample example given in the
+final footnote of this document.  A example of a worked population analysis
+using this method can be found at
+\url{https://github.com/farr/SelectionExample}.
+
+\bibliography{selection}
+
+\end{document}
