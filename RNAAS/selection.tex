@@ -37,15 +37,15 @@
 
 Consider a population of objects, each described by some set of parameters
 $\vtheta$, that follows a number density $\diff{N}{\vtheta}$.  Let the number
-density be parameterised by some set of parameters, $\vlambda$.  For each object
-in the population we make a noisy measurement of $\vtheta$, represented by a
-likelihood function relating the measured data $\vd$, to the parameters of the
-object, $\vtheta$: $p\left( \vd \mid \vtheta \right)$.  If we have observed a
-representative sample (i.e.\ a ``fair draw'') of the population, then the
-appropriate (unnormalised) posterior distribution for the parameters $\left\{
-\vtheta_i \right\}_{i=1}^{\Ntotal}$ of each of the $i = 1, \ldots, \Ntotal$
-objects and the parameters $\vlambda$ describing the population given the set of
-observations $\left\{ \vd_i \right\}$ is
+density be parameterized by parameters, $\vlambda$.  For each object in the
+population we make a noisy measurement of $\vtheta$, represented by a likelihood
+function relating the measured data, $\vd$, to the parameters of the object,
+$\vtheta$: $p\left( \vd \mid \vtheta \right)$.  If we have observed a
+representative sample (i.e.\ a ``fair draw''), then the appropriate
+(unnormalised) posterior distribution for the parameters $\left\{ \vtheta_i
+\right\}_{i=1}^{\Ntotal}$ of the $i = 1, \ldots, \Ntotal$ objects and the
+parameters $\vlambda$ describing the population given the set of observations
+$\left\{ \vd_i \right\}$ is
 %
 \begin{equation}
   \pi\left(\left\{ \vtheta_i \right\}, \vlambda \mid \left\{ d_i \right\}\right) \propto \left[ \prod_{i=1}^{\Ntotal} p\left( \vd_i \mid \vtheta_i \right) \diff{N}{\vtheta_i}\left( \vlambda \right) \right] \exp\left[ - N\left( \vlambda \right) \right],
@@ -61,8 +61,8 @@ is the expected number of objects in the population\footnote{The rationale for
 writing this as a double-integral, when the integral over $\vd$ is in fact
 trivial---since the likelihood is normalised over $\vd$---will become apparent
 below.}.  This is the standard posterior for a hierarchical analysis of an
-inhomogeneous Poisson distribution of events
-\citep{Loredo1995,Hogg2010,Mandel2010,Youdin2011,Foreman-Mackey2014,Farr2015}.
+inhomogeneous Poisson process
+\citep{Loredo1995,Hogg2010,Mandel2010,Youdin2011,Foreman-Mackey2014,Farr2015,Barrett2018}.
 
 Now suppose that, based on the observed data, some objects are classed as
 ``observable'' and others are ``un-observable.''  For example, a survey may
