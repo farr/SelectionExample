@@ -126,16 +126,17 @@ This equation is the posterior for a hierarchical analysis of the number density
 and properties of objects from a data set subject to selection effects
 \citep[e.g.][]{Gair2010,Youdin2011,Fishbach2018,Wysocki2018}.
 
-If we introduce a normalization parameter, $\Lambda$, and write
+If we re-parameterize $\diff{N}{\vtheta}$ so that we can write
 %
 \begin{equation}
-  \diff{N}{\vtheta} \equiv \Lambda p\left( \vtheta \right)
+  \diff{N}{\vtheta} \equiv \Lambda p\left( \vtheta \mid \vlambda{}' \right)
 \end{equation}
 %
-with $p\left( \vtheta \right)$ integrating to 1 over the population, impose a
-prior $p\left( \Lambda \right)\propto 1/\Lambda$, and marginalize over
-$\Lambda$, we arrive at the treatment of selection functions for estimating
-population distributions from \citet{Loredo2004,O1-BBH,Mandel2016}, as noted by
+with $p\left( \vtheta \mid \vlambda{}'\right)$ integrating to 1 over the
+population for any value of the new parameters $\vlambda{}'$, impose a prior
+$p\left( \Lambda \right)\propto 1/\Lambda$, and marginalize over $\Lambda$, we
+arrive at the treatment of selection functions for estimating population
+distributions from \citet{Loredo2004,O1-BBH,Mandel2016}, as noted by
 \citet{Fishbach2018}.
 
 Note that the commonly-employed technique of modifying $\diff{N}{\vtheta}$ to
@@ -144,7 +145,7 @@ results as long as the selection is dependent only on the observed
 data\footnote{An example where the selection may be parameter- rather than
 data-dependent is in surveys of objects that have been selected based on data in
 yet other surveys.  For example, X-ray selected populations of galaxy clusters
-in a weak-lensing catalog (M. Lieu, private communication).}.
+in a weak-lensing catalog.}.
 
 \acknowledgments
 
