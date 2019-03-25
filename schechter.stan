@@ -17,10 +17,8 @@ data {
 
 parameters {
   /* Expected number of sources out to zmax. */
-  real<lower=0> Lambda;
-
-  /* Counter for the non-physical sources */
-  real<lower=0> Lambda0;
+  real<lower=0> Lambda_total;
+  real<lower=0,upper=1> f_phys;
 
   /* Power law at low luminosity. */
   real<lower=-1> alpha;
@@ -45,10 +43,22 @@ parameters {
   vector<lower=0,upper=Fth>[NNobs_max] flux_nobs;
 }
 
+transformed parameters {
+  real Lambda = f_phys*Lambda_total;
+  real Lambda0 = (1-f_phys)*Lambda_total;
+}
+
 model {
   /* Priors. */
+
+  /* Lambda and Lambda0 are related to f_phys and Lambda_total, but we need a Jacobian:
+  d(Lambda, Lambda0)/d(Lambda_total, f_phys) = -2 Lambda_total
+
+   */
   Lambda ~ normal(0.0, 200.0);
   Lambda0 ~ normal(0.0, NNobs_max);
+  target += log(Lambda_total); /* Proportional to log(jacobian). */
+
   alpha ~ normal(0.0, 1.0);
   Lstar ~ normal(0.0, 2.0);
 
